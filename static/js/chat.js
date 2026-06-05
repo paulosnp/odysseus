@@ -236,6 +236,7 @@ import createResearchSynapse from './researchSynapse.js';
    * Handle chat form submission
    */
   export async function handleChatSubmit(e) {
+    let streamingTTS = false;
     e.preventDefault();
     // Cancel research clarification timeout if active
     if (window._researchTimeoutTimer) {
@@ -1005,7 +1006,7 @@ import createResearchSynapse from './researchSynapse.js';
       let isThinking = false;
       let thinkingStartTime = null;
       // Streaming TTS: synthesize sentence-by-sentence during streaming
-      const streamingTTS = !!(window.aiTTSManager && window.aiTTSManager.autoPlay && window.aiTTSManager.available);
+      streamingTTS = !!(window.aiTTSManager && window.aiTTSManager.autoPlay && window.aiTTSManager.available);
       if (streamingTTS) window.aiTTSManager.streamingStart();
       // Multi-bubble agent tracking
       let roundHolder = holder;       // Current AI text bubble (changes per round)
