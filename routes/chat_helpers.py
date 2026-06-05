@@ -172,6 +172,7 @@ async def auto_name_session(session_manager, sess):
             max_tokens=4096,
             headers=t_headers,
             timeout=60,
+            max_retries=1,
         )
 
         title = title.strip().strip('"\'').strip()
@@ -184,8 +185,7 @@ async def auto_name_session(session_manager, sess):
             logger.info(f"Auto-named session {sess.id}: {title}")
 
     except Exception as e:
-        import traceback
-        logger.error(f"Auto-name failed for {sess.id}: {e}\n{traceback.format_exc()}")
+        logger.warning(f"Auto-name failed for session {sess.id}: {e}")
 
 
 def try_fallback_endpoint(sess, session_id: str) -> dict | None:

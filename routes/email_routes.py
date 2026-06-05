@@ -946,6 +946,14 @@ def setup_email_routes():
                 logger.debug(f"Bulk summary attach skipped: {_summary_err}")
 
             return {"emails": emails, "total": total, "folder": folder, "offset": offset}
+        except ValueError as e:
+            err_msg = str(e)
+            if "not configured" in err_msg.lower():
+                logger.warning(f"Failed to list emails: {err_msg}")
+                return {"emails": [], "total": 0, "error": err_msg}
+            logger.error(f"Failed to list emails: {e}")
+            detail = err_msg.strip()
+            return {"emails": [], "total": 0, "error": f"Mail operation failed: {detail[:180]}" if detail else "Mail operation failed"}
         except Exception as e:
             logger.error(f"Failed to list emails: {e}")
             detail = str(e).strip()

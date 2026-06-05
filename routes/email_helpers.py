@@ -670,6 +670,10 @@ def _imap_connect(account_id: str | None = None, owner: str = ""):
     # new user doesn't get connected against another user's default mailbox
     # when they have no account configured.
     cfg = _get_email_config(account_id, owner=owner)
+    
+    if not cfg.get("imap_host") or not cfg.get("imap_user") or not cfg.get("imap_password"):
+        raise ValueError("IMAP not configured — add an Email Account in Settings or set env vars")
+
     # Connection mode:
     #   STARTTLS on → plain + upgrade
     #   STARTTLS off + port 993 → implicit SSL (IMAPS)
